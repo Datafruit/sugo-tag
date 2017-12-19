@@ -1,0 +1,520 @@
+usage: luigi_task.py [--local-scheduler] [--scheduler-host CORE_SCHEDULER_HOST]
+                    [--scheduler-port CORE_SCHEDULER_PORT]
+                    [--scheduler-url CORE_SCHEDULER_URL]
+                    [--lock-size CORE_LOCK_SIZE] [--no-lock]
+                    [--lock-pid-dir CORE_LOCK_PID_DIR] [--take-lock]
+                    [--workers CORE_WORKERS]
+                    [--logging-conf-file CORE_LOGGING_CONF_FILE]
+                    [--log-level CORE_LOG_LEVEL] [--module CORE_MODULE]
+                    [--parallel-scheduling] [--assistant] [--help]
+                    [--help-all]
+                    [--retcode-unhandled-exception RETCODE_UNHANDLED_EXCEPTION]
+                    [--retcode-missing-data RETCODE_MISSING_DATA]
+                    [--retcode-task-failed RETCODE_TASK_FAILED]
+                    [--retcode-already-running RETCODE_ALREADY_RUNNING]
+                    [--retcode-scheduling-error RETCODE_SCHEDULING_ERROR]
+                    [--retcode-not-run RETCODE_NOT_RUN]
+                    [--RangeBase-of RANGEBASE_OF]
+                    [--RangeBase-of-params RANGEBASE_OF_PARAMS]
+                    [--RangeBase-start RANGEBASE_START]
+                    [--RangeBase-stop RANGEBASE_STOP] [--RangeBase-reverse]
+                    [--RangeBase-task-limit RANGEBASE_TASK_LIMIT]
+                    [--RangeBase-now RANGEBASE_NOW]
+                    [--RangeBase-param-name RANGEBASE_PARAM_NAME]
+                    [--execution-summary-summary-length EXECUTION_SUMMARY_SUMMARY_LENGTH]
+                    [--worker-ping-interval WORKER_PING_INTERVAL]
+                    [--worker-keep-alive] [--worker-count-uniques]
+                    [--worker-count-last-scheduled]
+                    [--worker-wait-interval WORKER_WAIT_INTERVAL]
+                    [--worker-wait-jitter WORKER_WAIT_JITTER]
+                    [--worker-max-reschedules WORKER_MAX_RESCHEDULES]
+                    [--worker-timeout WORKER_TIMEOUT]
+                    [--worker-task-limit WORKER_TASK_LIMIT]
+                    [--worker-retry-external-tasks]
+                    [--worker-send-failure-email]
+                    [--worker-no-install-shutdown-handler]
+                    [--worker-check-unfulfilled-deps]
+                    [--TestNotificationsTask-raise-in-complete]
+                    [--RangeHourly-of RANGEHOURLY_OF]
+                    [--RangeHourly-of-params RANGEHOURLY_OF_PARAMS]
+                    [--RangeHourly-reverse]
+                    [--RangeHourly-task-limit RANGEHOURLY_TASK_LIMIT]
+                    [--RangeHourly-now RANGEHOURLY_NOW]
+                    [--RangeHourly-param-name RANGEHOURLY_PARAM_NAME]
+                    [--RangeHourly-start RANGEHOURLY_START]
+                    [--RangeHourly-stop RANGEHOURLY_STOP]
+                    [--RangeHourly-hours-back RANGEHOURLY_HOURS_BACK]
+                    [--RangeHourly-hours-forward RANGEHOURLY_HOURS_FORWARD]
+                    [--smtp-host SMTP_HOST]
+                    [--smtp-local-hostname SMTP_LOCAL_HOSTNAME]
+                    [--smtp-no-tls] [--smtp-password SMTP_PASSWORD]
+                    [--smtp-port SMTP_PORT] [--smtp-ssl]
+                    [--smtp-timeout SMTP_TIMEOUT]
+                    [--smtp-username SMTP_USERNAME]
+                    [--RangeDaily-of RANGEDAILY_OF]
+                    [--RangeDaily-of-params RANGEDAILY_OF_PARAMS]
+                    [--RangeDaily-reverse]
+                    [--RangeDaily-task-limit RANGEDAILY_TASK_LIMIT]
+                    [--RangeDaily-now RANGEDAILY_NOW]
+                    [--RangeDaily-param-name RANGEDAILY_PARAM_NAME]
+                    [--RangeDaily-start RANGEDAILY_START]
+                    [--RangeDaily-stop RANGEDAILY_STOP]
+                    [--RangeDaily-days-back RANGEDAILY_DAYS_BACK]
+                    [--RangeDaily-days-forward RANGEDAILY_DAYS_FORWARD]
+                    [--batch-email-email-interval BATCH_EMAIL_EMAIL_INTERVAL]
+                    [--batch-email-batch-mode BATCH_EMAIL_BATCH_MODE]
+                    [--batch-email-error-lines BATCH_EMAIL_ERROR_LINES]
+                    [--batch-email-error-messages BATCH_EMAIL_ERROR_MESSAGES]
+                    [--batch-email-group-by-error-messages]
+                    [--scheduler-retry-delay SCHEDULER_RETRY_DELAY]
+                    [--scheduler-remove-delay SCHEDULER_REMOVE_DELAY]
+                    [--scheduler-worker-disconnect-delay SCHEDULER_WORKER_DISCONNECT_DELAY]
+                    [--scheduler-state-path SCHEDULER_STATE_PATH]
+                    [--scheduler-batch-emails]
+                    [--scheduler-disable-window SCHEDULER_DISABLE_WINDOW]
+                    [--scheduler-retry-count SCHEDULER_RETRY_COUNT]
+                    [--scheduler-disable-hard-timeout SCHEDULER_DISABLE_HARD_TIMEOUT]
+                    [--scheduler-disable-persist SCHEDULER_DISABLE_PERSIST]
+                    [--scheduler-max-shown-tasks SCHEDULER_MAX_SHOWN_TASKS]
+                    [--scheduler-max-graph-nodes SCHEDULER_MAX_GRAPH_NODES]
+                    [--scheduler-record-task-history]
+                    [--scheduler-prune-on-get-work]
+                    [--RangeHourlyBase-of RANGEHOURLYBASE_OF]
+                    [--RangeHourlyBase-of-params RANGEHOURLYBASE_OF_PARAMS]
+                    [--RangeHourlyBase-reverse]
+                    [--RangeHourlyBase-task-limit RANGEHOURLYBASE_TASK_LIMIT]
+                    [--RangeHourlyBase-now RANGEHOURLYBASE_NOW]
+                    [--RangeHourlyBase-param-name RANGEHOURLYBASE_PARAM_NAME]
+                    [--RangeHourlyBase-start RANGEHOURLYBASE_START]
+                    [--RangeHourlyBase-stop RANGEHOURLYBASE_STOP]
+                    [--RangeHourlyBase-hours-back RANGEHOURLYBASE_HOURS_BACK]
+                    [--RangeHourlyBase-hours-forward RANGEHOURLYBASE_HOURS_FORWARD]
+                    [--RangeByMinutes-of RANGEBYMINUTES_OF]
+                    [--RangeByMinutes-of-params RANGEBYMINUTES_OF_PARAMS]
+                    [--RangeByMinutes-reverse]
+                    [--RangeByMinutes-task-limit RANGEBYMINUTES_TASK_LIMIT]
+                    [--RangeByMinutes-now RANGEBYMINUTES_NOW]
+                    [--RangeByMinutes-param-name RANGEBYMINUTES_PARAM_NAME]
+                    [--RangeByMinutes-start RANGEBYMINUTES_START]
+                    [--RangeByMinutes-stop RANGEBYMINUTES_STOP]
+                    [--RangeByMinutes-minutes-back RANGEBYMINUTES_MINUTES_BACK]
+                    [--RangeByMinutes-minutes-forward RANGEBYMINUTES_MINUTES_FORWARD]
+                    [--RangeByMinutes-minutes-interval RANGEBYMINUTES_MINUTES_INTERVAL]
+                    [--RangeByMinutesBase-of RANGEBYMINUTESBASE_OF]
+                    [--RangeByMinutesBase-of-params RANGEBYMINUTESBASE_OF_PARAMS]
+                    [--RangeByMinutesBase-reverse]
+                    [--RangeByMinutesBase-task-limit RANGEBYMINUTESBASE_TASK_LIMIT]
+                    [--RangeByMinutesBase-now RANGEBYMINUTESBASE_NOW]
+                    [--RangeByMinutesBase-param-name RANGEBYMINUTESBASE_PARAM_NAME]
+                    [--RangeByMinutesBase-start RANGEBYMINUTESBASE_START]
+                    [--RangeByMinutesBase-stop RANGEBYMINUTESBASE_STOP]
+                    [--RangeByMinutesBase-minutes-back RANGEBYMINUTESBASE_MINUTES_BACK]
+                    [--RangeByMinutesBase-minutes-forward RANGEBYMINUTESBASE_MINUTES_FORWARD]
+                    [--RangeByMinutesBase-minutes-interval RANGEBYMINUTESBASE_MINUTES_INTERVAL]
+                    [--RangeDailyBase-of RANGEDAILYBASE_OF]
+                    [--RangeDailyBase-of-params RANGEDAILYBASE_OF_PARAMS]
+                    [--RangeDailyBase-reverse]
+                    [--RangeDailyBase-task-limit RANGEDAILYBASE_TASK_LIMIT]
+                    [--RangeDailyBase-now RANGEDAILYBASE_NOW]
+                    [--RangeDailyBase-param-name RANGEDAILYBASE_PARAM_NAME]
+                    [--RangeDailyBase-start RANGEDAILYBASE_START]
+                    [--RangeDailyBase-stop RANGEDAILYBASE_STOP]
+                    [--RangeDailyBase-days-back RANGEDAILYBASE_DAYS_BACK]
+                    [--RangeDailyBase-days-forward RANGEDAILYBASE_DAYS_FORWARD]
+                    [--email-force-send] [--email-format EMAIL_FORMAT]
+                    [--email-method EMAIL_METHOD]
+                    [--email-prefix EMAIL_PREFIX]
+                    [--email-receiver EMAIL_RECEIVER]
+                    [--email-sender EMAIL_SENDER]
+                    [--sendgrid-username SENDGRID_USERNAME]
+                    [--sendgrid-password SENDGRID_PASSWORD]
+                    [Required root task]
+
+positional arguments:
+  Required root task    Task family to run. Is not optional.
+
+optional arguments:
+  --local-scheduler     Use an in-memory central scheduler. Useful for
+                        testing.
+  --scheduler-host CORE_SCHEDULER_HOST
+                        Hostname of machine running remote scheduler
+  --scheduler-port CORE_SCHEDULER_PORT
+                        Port of remote scheduler api process
+  --scheduler-url CORE_SCHEDULER_URL
+                        Full path to remote scheduler
+  --lock-size CORE_LOCK_SIZE
+                        Maximum number of workers running the same command
+  --no-lock             Ignore if similar process is already running
+  --lock-pid-dir CORE_LOCK_PID_DIR
+                        Directory to store the pid file
+  --take-lock           Signal other processes to stop getting work if already
+                        running
+  --workers CORE_WORKERS
+                        Maximum number of parallel tasks to run
+  --logging-conf-file CORE_LOGGING_CONF_FILE
+                        Configuration file for logging
+  --log-level CORE_LOG_LEVEL
+                        Default log level to use when logging_conf_file is not
+                        set Choices: {INFO, WARNING, CRITICAL, ERROR, DEBUG,
+                        NOTSET}
+  --module CORE_MODULE  Used for dynamic loading of modules
+  --parallel-scheduling
+                        Use multiprocessing to do scheduling in parallel.
+  --assistant           Run any task from the scheduler.
+  --help                Show most common flags and all task-specific flags
+  --help-all            Show all command line flags
+  --retcode-unhandled-exception RETCODE_UNHANDLED_EXCEPTION
+                        For internal luigi errors.
+  --retcode-missing-data RETCODE_MISSING_DATA
+                        For when there are incomplete ExternalTask
+                        dependencies.
+  --retcode-task-failed RETCODE_TASK_FAILED
+                        For when a task's run() method fails.
+  --retcode-already-running RETCODE_ALREADY_RUNNING
+                        For both local --lock and luigid "lock"
+  --retcode-scheduling-error RETCODE_SCHEDULING_ERROR
+                        For when a task's complete() or requires() fails, or
+                        task-limit reached
+  --retcode-not-run RETCODE_NOT_RUN
+                        For when a task is not granted run permission by the
+                        scheduler.
+  --RangeBase-of RANGEBASE_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeBase-of-params RANGEBASE_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeBase-start RANGEBASE_START
+  --RangeBase-stop RANGEBASE_STOP
+  --RangeBase-reverse   specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeBase-task-limit RANGEBASE_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeBase-now RANGEBASE_NOW
+                        set to override current time. In seconds since epoch
+  --RangeBase-param-name RANGEBASE_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --execution-summary-summary-length EXECUTION_SUMMARY_SUMMARY_LENGTH
+  --worker-ping-interval WORKER_PING_INTERVAL
+  --worker-keep-alive
+  --worker-count-uniques
+                        worker-count-uniques means that we will keep a worker
+                        alive only if it has a unique pending task, as well as
+                        having keep-alive true
+  --worker-count-last-scheduled
+                        Keep a worker alive only if there are pending tasks
+                        which it was the last to schedule.
+  --worker-wait-interval WORKER_WAIT_INTERVAL
+  --worker-wait-jitter WORKER_WAIT_JITTER
+  --worker-max-reschedules WORKER_MAX_RESCHEDULES
+  --worker-timeout WORKER_TIMEOUT
+  --worker-task-limit WORKER_TASK_LIMIT
+  --worker-retry-external-tasks
+                        If true, incomplete external tasks will be retested
+                        for completion while Luigi is running.
+  --worker-send-failure-email
+                        If true, send e-mails directly from the workeron
+                        failure
+  --worker-no-install-shutdown-handler
+                        If true, the SIGUSR1 shutdown handler willNOT be
+                        install on the worker
+  --worker-check-unfulfilled-deps
+                        If true, check for completeness of dependencies before
+                        running a task
+  --TestNotificationsTask-raise-in-complete
+                        If true, fail in complete() instead of run()
+  --RangeHourly-of RANGEHOURLY_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeHourly-of-params RANGEHOURLY_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeHourly-reverse
+                        specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeHourly-task-limit RANGEHOURLY_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeHourly-now RANGEHOURLY_NOW
+                        set to override current time. In seconds since epoch
+  --RangeHourly-param-name RANGEHOURLY_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeHourly-start RANGEHOURLY_START
+                        beginning datehour, inclusive. Default: None - work
+                        backward forever (requires reverse=True)
+  --RangeHourly-stop RANGEHOURLY_STOP
+                        ending datehour, exclusive. Default: None - work
+                        forward forever
+  --RangeHourly-hours-back RANGEHOURLY_HOURS_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in hours from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeHourly-hours-forward RANGEHOURLY_HOURS_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in hours from current time. Prevents infinite
+                        loop when stop is none
+  --smtp-host SMTP_HOST
+                        Hostname of smtp server
+  --smtp-local-hostname SMTP_LOCAL_HOSTNAME
+                        If specified, local_hostname is used as the FQDN of
+                        the local host in the HELO/EHLO command
+  --smtp-no-tls         Do not use TLS in SMTP connections
+  --smtp-password SMTP_PASSWORD
+                        Password for the SMTP server login
+  --smtp-port SMTP_PORT
+                        Port number for smtp server
+  --smtp-ssl            Use SSL for the SMTP connection.
+  --smtp-timeout SMTP_TIMEOUT
+                        Number of seconds before timing out the smtp
+                        connection
+  --smtp-username SMTP_USERNAME
+                        Username used to log in to the SMTP host
+  --RangeDaily-of RANGEDAILY_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeDaily-of-params RANGEDAILY_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeDaily-reverse  specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeDaily-task-limit RANGEDAILY_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeDaily-now RANGEDAILY_NOW
+                        set to override current time. In seconds since epoch
+  --RangeDaily-param-name RANGEDAILY_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeDaily-start RANGEDAILY_START
+                        beginning date, inclusive. Default: None - work
+                        backward forever (requires reverse=True)
+  --RangeDaily-stop RANGEDAILY_STOP
+                        ending date, exclusive. Default: None - work forward
+                        forever
+  --RangeDaily-days-back RANGEDAILY_DAYS_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in days from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeDaily-days-forward RANGEDAILY_DAYS_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in days from current time. Prevents infinite
+                        loop when stop is none
+  --batch-email-email-interval BATCH_EMAIL_EMAIL_INTERVAL
+                        Number of minutes between e-mail sends (default: 60)
+  --batch-email-batch-mode BATCH_EMAIL_BATCH_MODE
+                        Method used for batching failures in e-mail. If
+                        "family" all failures for tasks with the same family
+                        will be batched. If "unbatched_params", all failures
+                        for tasks with the same family and non-batched
+                        parameters will be batched. If "all", tasks will only
+                        be batched if they have identical names. Choices:
+                        {all, unbatched_params, family}
+  --batch-email-error-lines BATCH_EMAIL_ERROR_LINES
+                        Number of lines to show from each error message. 0
+                        means show all
+  --batch-email-error-messages BATCH_EMAIL_ERROR_MESSAGES
+                        Number of error messages to show for each group
+  --batch-email-group-by-error-messages
+                        Group items with the same error messages together
+  --scheduler-retry-delay SCHEDULER_RETRY_DELAY
+  --scheduler-remove-delay SCHEDULER_REMOVE_DELAY
+  --scheduler-worker-disconnect-delay SCHEDULER_WORKER_DISCONNECT_DELAY
+  --scheduler-state-path SCHEDULER_STATE_PATH
+  --scheduler-batch-emails
+                        Send e-mails in batches rather than immediately
+  --scheduler-disable-window SCHEDULER_DISABLE_WINDOW
+  --scheduler-retry-count SCHEDULER_RETRY_COUNT
+  --scheduler-disable-hard-timeout SCHEDULER_DISABLE_HARD_TIMEOUT
+  --scheduler-disable-persist SCHEDULER_DISABLE_PERSIST
+  --scheduler-max-shown-tasks SCHEDULER_MAX_SHOWN_TASKS
+  --scheduler-max-graph-nodes SCHEDULER_MAX_GRAPH_NODES
+  --scheduler-record-task-history
+  --scheduler-prune-on-get-work
+  --RangeHourlyBase-of RANGEHOURLYBASE_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeHourlyBase-of-params RANGEHOURLYBASE_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeHourlyBase-reverse
+                        specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeHourlyBase-task-limit RANGEHOURLYBASE_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeHourlyBase-now RANGEHOURLYBASE_NOW
+                        set to override current time. In seconds since epoch
+  --RangeHourlyBase-param-name RANGEHOURLYBASE_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeHourlyBase-start RANGEHOURLYBASE_START
+                        beginning datehour, inclusive. Default: None - work
+                        backward forever (requires reverse=True)
+  --RangeHourlyBase-stop RANGEHOURLYBASE_STOP
+                        ending datehour, exclusive. Default: None - work
+                        forward forever
+  --RangeHourlyBase-hours-back RANGEHOURLYBASE_HOURS_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in hours from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeHourlyBase-hours-forward RANGEHOURLYBASE_HOURS_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in hours from current time. Prevents infinite
+                        loop when stop is none
+  --RangeByMinutes-of RANGEBYMINUTES_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeByMinutes-of-params RANGEBYMINUTES_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeByMinutes-reverse
+                        specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeByMinutes-task-limit RANGEBYMINUTES_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeByMinutes-now RANGEBYMINUTES_NOW
+                        set to override current time. In seconds since epoch
+  --RangeByMinutes-param-name RANGEBYMINUTES_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeByMinutes-start RANGEBYMINUTES_START
+                        beginning date-hour-minute, inclusive. Default: None -
+                        work backward forever (requires reverse=True)
+  --RangeByMinutes-stop RANGEBYMINUTES_STOP
+                        ending date-hour-minute, exclusive. Default: None -
+                        work forward forever
+  --RangeByMinutes-minutes-back RANGEBYMINUTES_MINUTES_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in minutes from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeByMinutes-minutes-forward RANGEBYMINUTES_MINUTES_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in minutes from current time. Prevents
+                        infinite loop when stop is none
+  --RangeByMinutes-minutes-interval RANGEBYMINUTES_MINUTES_INTERVAL
+                        separation between events in minutes. It must evenly
+                        divide 60
+  --RangeByMinutesBase-of RANGEBYMINUTESBASE_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeByMinutesBase-of-params RANGEBYMINUTESBASE_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeByMinutesBase-reverse
+                        specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeByMinutesBase-task-limit RANGEBYMINUTESBASE_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeByMinutesBase-now RANGEBYMINUTESBASE_NOW
+                        set to override current time. In seconds since epoch
+  --RangeByMinutesBase-param-name RANGEBYMINUTESBASE_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeByMinutesBase-start RANGEBYMINUTESBASE_START
+                        beginning date-hour-minute, inclusive. Default: None -
+                        work backward forever (requires reverse=True)
+  --RangeByMinutesBase-stop RANGEBYMINUTESBASE_STOP
+                        ending date-hour-minute, exclusive. Default: None -
+                        work forward forever
+  --RangeByMinutesBase-minutes-back RANGEBYMINUTESBASE_MINUTES_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in minutes from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeByMinutesBase-minutes-forward RANGEBYMINUTESBASE_MINUTES_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in minutes from current time. Prevents
+                        infinite loop when stop is none
+  --RangeByMinutesBase-minutes-interval RANGEBYMINUTESBASE_MINUTES_INTERVAL
+                        separation between events in minutes. It must evenly
+                        divide 60
+  --RangeDailyBase-of RANGEDAILYBASE_OF
+                        task name to be completed. The task must take a single
+                        datetime parameter
+  --RangeDailyBase-of-params RANGEDAILYBASE_OF_PARAMS
+                        Arguments to be provided to the 'of' class when
+                        instantiating
+  --RangeDailyBase-reverse
+                        specifies the preferred order for catching up. False -
+                        work from the oldest missing outputs onward; True -
+                        from the newest backward
+  --RangeDailyBase-task-limit RANGEDAILYBASE_TASK_LIMIT
+                        how many of 'of' tasks to require. Guards against
+                        scheduling insane amounts of tasks in one go
+  --RangeDailyBase-now RANGEDAILYBASE_NOW
+                        set to override current time. In seconds since epoch
+  --RangeDailyBase-param-name RANGEDAILYBASE_PARAM_NAME
+                        parameter name used to pass in parameterized value.
+                        Defaults to None, meaning use first positional
+                        parameter
+  --RangeDailyBase-start RANGEDAILYBASE_START
+                        beginning date, inclusive. Default: None - work
+                        backward forever (requires reverse=True)
+  --RangeDailyBase-stop RANGEDAILYBASE_STOP
+                        ending date, exclusive. Default: None - work forward
+                        forever
+  --RangeDailyBase-days-back RANGEDAILYBASE_DAYS_BACK
+                        extent to which contiguousness is to be assured into
+                        past, in days from current time. Prevents infinite
+                        loop when start is none. If the dataset has limited
+                        retention (i.e. old outputs get removed), this should
+                        be set shorter to that, too, to prevent the oldest
+                        outputs flapping. Increase freely if you intend to
+                        process old dates - worker's memory is the limit
+  --RangeDailyBase-days-forward RANGEDAILYBASE_DAYS_FORWARD
+                        extent to which contiguousness is to be assured into
+                        future, in days from current time. Prevents infinite
+                        loop when stop is none
+  --email-force-send    Send e-mail even from a tty
+  --email-format EMAIL_FORMAT
+                        Format type for sent e-mails Choices: {plain, none,
+                        html}
+  --email-method EMAIL_METHOD
+                        Method for sending e-mail Choices: {ses, sendgrid,
+                        smtp, sns}
+  --email-prefix EMAIL_PREFIX
+                        Prefix for subject lines of all e-mails
+  --email-receiver EMAIL_RECEIVER
+                        Address to send error e-mails to
+  --email-sender EMAIL_SENDER
+                        Address to send e-mails from
+  --sendgrid-username SENDGRID_USERNAME
+                        Username for sendgrid login
+  --sendgrid-password SENDGRID_PASSWORD
+                        Username for sendgrid login
