@@ -7,12 +7,12 @@
 .project
 .settings/
 target/
-data/algorithm_test/*
-data/igola_tag/*
-data/sugo_tag_test/*
-repo/igola/recommend/*
-repo/igola/sort/*
-task_sql/*
-task_tag/*
+data/algorithm_test/?*
+data/igola_tag/?*
+data/sugo_tag_test/?*
+repo/igola/recommend/?*
+repo/igola/sort/?*
+task_sql/?*
+task_tag/?*
 
 !.gitkeep

@@ -13,12 +13,12 @@ rm -f ${pack_file}
 tar -czv \
     --exclude '*.log' \
     --exclude '*.pyc' \
-    --exclude 'sugo-tag/data/algorithm_test/*' \
-    --exclude 'sugo-tag/data/igola_tag/*' \
-    --exclude 'sugo-tag/data/sugo_tag_test/*' \
-    --exclude 'sugo-tag/repo/igola/recommend/*' \
-    --exclude 'sugo-tag/repo/igola/sort/*' \
-    --exclude 'sugo-tag/task_sql/*' \
-    --exclude 'sugo-tag/task_tag/*' \
+    --exclude 'sugo-tag/data/algorithm_test/?*' \
+    --exclude 'sugo-tag/data/igola_tag/?*' \
+    --exclude 'sugo-tag/data/sugo_tag_test/?*' \
+    --exclude 'sugo-tag/repo/igola/recommend/?*' \
+    --exclude 'sugo-tag/repo/igola/sort/?*' \
+    --exclude 'sugo-tag/task_sql/?*' \
+    --exclude 'sugo-tag/task_tag/?*' \
     -f ${pack_file} sugo-tag
 
