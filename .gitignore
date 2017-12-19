@@ -14,3 +14,5 @@ repo/igola/recommend/*
 repo/igola/sort/*
 task_sql/*
 task_tag/*
+
+!.gitkeep
